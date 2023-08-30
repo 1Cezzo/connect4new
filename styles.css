@@ -66,11 +66,12 @@ h1 {
   margin: 5px;
   cursor: pointer;
   transition: background 0.3s, transform 0.2s;
-  background: radial-gradient(circle, #f2f2f2, #d0d0d0);
+  background: #f2f2f2;
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1); /* Adding shadow */
 }
 
 .cell:hover {
-  background: radial-gradient(#d2d7d8, #bdc3c7);
+  background: #d2d7d8;
   transform: scale(1.05);
 }
 
@@ -88,9 +89,32 @@ a {
 }
 
 .cell.player1 {
-  background: radial-gradient(circle, #FF5733, #FFC300);
+  background-color: #FF6347; /* Red */
 }
 
 .cell.player2 {
-  background: radial-gradient(circle, #3498DB, #9B59B6);
+  background-color: #FFD700; /* Yellow */
+}
+
+.cell.player1:hover {
+  filter: brightness(0.8); /* Slightly darker for player1 on hover */
+}
+
+.cell.player2:hover {
+  filter: brightness(1.2); /* Slightly brighter for player2 on hover */
+}
+
+.cell.falling {
+  animation: fallAnimation 0.5s ease-in-out; /* Adjust the duration and timing function as needed */
+}
+
+@keyframes fallAnimation {
+  0% {
+    transform: translateY(calc(var(--row) * (90%))); /* Start position above the grid */
+    opacity: 0; /* Initial transparency */
+  }
+  100% {
+    transform: translateY(0); /* End position at the correct row */
+    opacity: 1; /* Full visibility */
+  }
 }

@@ -8,19 +8,29 @@ function cellIsEmpty(cell) {
   return !cell.classList.contains('player1') && !cell.classList.contains('player2');
 }
 
-
 const cells = document.querySelectorAll('.cell');
+const numRows = 6; // Number of rows in the grid
+const numCols = 7; // Number of columns in the grid
+const lowestRow = Array(numCols).fill(0); // Initialize the lowest row in each column
 
-cells.forEach(cell => {
+cells.forEach((cell, index) => {
   cell.addEventListener('click', () => {
-      console.log('Cell clicked!'); // Check if event is triggered
-      if (cellIsEmpty(cell)) {
-          console.log('Cell is empty.'); // Check if cellIsEmpty is true
-          cell.classList.add(currentPlayer);
+      const col = index % numCols;
+      const row = lowestRow[col];
+      
+      if (row < numRows && cellIsEmpty(cell)) { // Check if the column has available rows and the cell is empty
+          const cellToPlace = document.querySelector(`[data-row="${row}"][data-col="${col}"]`);
+          cellToPlace.classList.add(currentPlayer);
+          cellToPlace.style.setProperty('--row', row-7);
+          cellToPlace.classList.add('falling', currentPlayer);
           switchPlayer();
-      } else {
-          console.log('Cell is not empty.'); // Check if cellIsEmpty is false
+          lowestRow[col]++; // Update the lowest row for the column
       }
+
+      // Remove the falling class after the animation is complete
+      cellToPlace.addEventListener('animationend', () => {
+        cellToPlace.classList.remove('falling');
+    }, { once: true });
   });
 });
 
